@@ -1874,6 +1874,9 @@ void l1_2(RenderWindow &window)
 
     setupGrid(); // Setup initial game grid
 
+    int prex1 = 0, prey1 = 0;
+    int prex2 = 0, prey2 = 0;
+
     while (window.isOpen())
     {
         if (p1X == p2X && p1Y == p2Y)
@@ -1955,6 +1958,13 @@ void l1_2(RenderWindow &window)
         // Move players every frame if enough time has passed
         if (animationTimer > animationDelay)
         {
+
+            prex1 = p1X;
+            prey1 = p1Y;
+
+            prex2 = p2X;
+            prey2 = p2Y;
+
             // Move Player 1
             p1X += p1DX;
             p1Y += p1DY;
@@ -2015,32 +2025,29 @@ void l1_2(RenderWindow &window)
         if (grid[p1Y][p1X] == 1)
         {
 
+            p1DX = p1DY = 0;
             // Drop traps under enemy positions
-            for (int i = 0; i < maxEnemies; i++)
-                drop(enemies[i].y / tileSize, enemies[i].x / tileSize);
-
-            // Only reset the specific touched tile
-            if (grid[p1Y][p1X] == 1)
+            if (grid[prey1][prex1] == 2)
             {
-                p1DX = p1DY = 0;
-            }
+                for (int i = 0; i < maxEnemies; i++)
+                    drop(enemies[i].y / tileSize, enemies[i].x / tileSize);
 
-            // Now, we'll update the grid according to some game logic if needed (e.g., new tiles)
-            int tileNow = 0;
-            for (int i = 0; i < row; i++)
-            {
-                for (int j = 0; j < cols; j++)
+                // Now, we'll update the grid according to some game logic if needed (e.g., new tiles)
+                int tileNow = 0;
+                for (int i = 0; i < row; i++)
                 {
-                    // Handle tiles for player-specific logic
-                    if (grid[i][j] == -1)
-                        grid[i][j] = 0;
-                    else if (grid[i][j] == 2 || grid[i][j] == 0)
+                    for (int j = 0; j < cols; j++)
                     {
-                        // Debugging for player 1 and 2
+                        // Handle tiles for player-specific logic
+                        if (grid[i][j] == -1)
+                            grid[i][j] = 0;
+                        else if (grid[i][j] == 2 || grid[i][j] == 0)
+                        {
+                            // Debugging for player 1 and 2
 
-                        tiles_player_2 += 1;
-                        tileNow += 1;
-                        grid[i][j] = 1;
+                            tiles_player_1 += 1;
+                            grid[i][j] = 1;
+                        }
                     }
                 }
             }
@@ -2049,35 +2056,31 @@ void l1_2(RenderWindow &window)
         if (grid[p2Y][p2X] == 1)
         {
 
-            safe_zone = false;
+            p2DX = p2DY = 0;
 
-            // Drop traps under enemy positions
-            for (int i = 0; i < maxEnemies; i++)
-                drop(enemies[i].y / tileSize, enemies[i].x / tileSize);
-
-            // Only reset the specific touched tile
-            if (grid[p2Y][p2X] == 1)
+            if (grid[prey2][prex2] == 3)
             {
+                // Drop traps under enemy positions
+                for (int i = 0; i < maxEnemies; i++)
+                    drop(enemies[i].y / tileSize, enemies[i].x / tileSize);
 
-                p2DX = p2DY = 0;
-            }
-
-            // Now, we'll update the grid according to some game logic if needed (e.g., new tiles)
-            int tileNow = 0;
-            for (int i = 0; i < row; i++)
-            {
-                for (int j = 0; j < cols; j++)
+                // Now, we'll update the grid according to some game logic if needed (e.g., new tiles)
+                int tileNow = 0;
+                for (int i = 0; i < row; i++)
                 {
-                    // Handle tiles for player-specific logic
-                    if (grid[i][j] == -1)
-                        grid[i][j] = 0;
-                    else if (grid[i][j] == 3 || grid[i][j] == 0)
+                    for (int j = 0; j < cols; j++)
                     {
+                        // Handle tiles for player-specific logic
+                        if (grid[i][j] == -1)
+                            grid[i][j] = 0;
+                        else if (grid[i][j] == 3 || grid[i][j] == 0)
+                        {
 
-                        tiles_player_1 += 1;
+                            tiles_player_2 += 1;
 
-                        tileNow += 1;
-                        grid[i][j] = 1;
+                            tileNow += 1;
+                            grid[i][j] = 1;
+                        }
                     }
                 }
             }
@@ -2170,6 +2173,9 @@ void l2_2(RenderWindow &window)
 
     setupGrid(); // Setup initial game grid
 
+    int prex1 = 0, prey1 = 0;
+    int prex2 = 0, prey2 = 0;
+
     while (window.isOpen())
     {
         if (p1X == p2X && p1Y == p2Y)
@@ -2251,6 +2257,13 @@ void l2_2(RenderWindow &window)
         // Move players every frame if enough time has passed
         if (animationTimer > animationDelay)
         {
+
+            prex1 = p1X;
+            prey1 = p1Y;
+
+            prex2 = p2X;
+            prey2 = p2Y;
+
             // Move Player 1
             p1X += p1DX;
             p1Y += p1DY;
@@ -2308,34 +2321,33 @@ void l2_2(RenderWindow &window)
         for (int i = 0; i < maxEnemies; i++)
             enemies[i].move();
         // If player hits a tile (special zone)
+        // If player hits a tile (special zone)
         if (grid[p1Y][p1X] == 1)
         {
 
+            p1DX = p1DY = 0;
             // Drop traps under enemy positions
-            for (int i = 0; i < maxEnemies; i++)
-                drop(enemies[i].y / tileSize, enemies[i].x / tileSize);
-
-            // Only reset the specific touched tile
-            if (grid[p1Y][p1X] == 1)
+            if (grid[prey1][prex1] == 2)
             {
-                p1DX = p1DY = 0;
-            }
+                for (int i = 0; i < maxEnemies; i++)
+                    drop(enemies[i].y / tileSize, enemies[i].x / tileSize);
 
-            // Now, we'll update the grid according to some game logic if needed (e.g., new tiles)
-            int tileNow = 0;
-            for (int i = 0; i < row; i++)
-            {
-                for (int j = 0; j < cols; j++)
+                // Now, we'll update the grid according to some game logic if needed (e.g., new tiles)
+                int tileNow = 0;
+                for (int i = 0; i < row; i++)
                 {
-                    // Handle tiles for player-specific logic
-                    if (grid[i][j] == -1)
-                        grid[i][j] = 0;
-                    else if (grid[i][j] == 2 || grid[i][j] == 0)
+                    for (int j = 0; j < cols; j++)
                     {
+                        // Handle tiles for player-specific logic
+                        if (grid[i][j] == -1)
+                            grid[i][j] = 0;
+                        else if (grid[i][j] == 2 || grid[i][j] == 0)
+                        {
+                            // Debugging for player 1 and 2
 
-                        tiles_player_2 += 1;
-                        tileNow += 1;
-                        grid[i][j] = 1;
+                            tiles_player_1 += 1;
+                            grid[i][j] = 1;
+                        }
                     }
                 }
             }
@@ -2344,36 +2356,31 @@ void l2_2(RenderWindow &window)
         if (grid[p2Y][p2X] == 1)
         {
 
-            safe_zone = false;
+            p2DX = p2DY = 0;
 
-            // Drop traps under enemy positions
-            for (int i = 0; i < maxEnemies; i++)
-                drop(enemies[i].y / tileSize, enemies[i].x / tileSize);
-
-            // Only reset the specific touched tile
-            if (grid[p2Y][p2X] == 1)
+            if (grid[prey2][prex2] == 3)
             {
+                // Drop traps under enemy positions
+                for (int i = 0; i < maxEnemies; i++)
+                    drop(enemies[i].y / tileSize, enemies[i].x / tileSize);
 
-                p2DX = p2DY = 0;
-            }
-
-            // Now, we'll update the grid according to some game logic if needed (e.g., new tiles)
-            int tileNow = 0;
-            for (int i = 0; i < row; i++)
-            {
-                for (int j = 0; j < cols; j++)
+                // Now, we'll update the grid according to some game logic if needed (e.g., new tiles)
+                int tileNow = 0;
+                for (int i = 0; i < row; i++)
                 {
-                    // Handle tiles for player-specific logic
-                    if (grid[i][j] == -1)
-                        grid[i][j] = 0;
-                    else if (grid[i][j] == 3 || grid[i][j] == 0)
+                    for (int j = 0; j < cols; j++)
                     {
-                        // Debugging for player 1 and 2
+                        // Handle tiles for player-specific logic
+                        if (grid[i][j] == -1)
+                            grid[i][j] = 0;
+                        else if (grid[i][j] == 3 || grid[i][j] == 0)
+                        {
 
-                        tiles_player_1 += 1;
+                            tiles_player_2 += 1;
 
-                        tileNow += 1;
-                        grid[i][j] = 1;
+                            tileNow += 1;
+                            grid[i][j] = 1;
+                        }
                     }
                 }
             }
@@ -2466,6 +2473,9 @@ void l3_2(RenderWindow &window)
 
     setupGrid(); // Setup initial game grid
 
+    int prex1 = 0, prey1 = 0;
+    int prex2 = 0, prey2 = 0;
+
     while (window.isOpen())
     {
         if (p1X == p2X && p1Y == p2Y)
@@ -2547,6 +2557,12 @@ void l3_2(RenderWindow &window)
         // Move players every frame if enough time has passed
         if (animationTimer > animationDelay)
         {
+            prex1 = p1X;
+            prey1 = p1Y;
+
+            prex2 = p2X;
+            prey2 = p2Y;
+
             // Move Player 1
             p1X += p1DX;
             p1Y += p1DY;
@@ -2604,34 +2620,33 @@ void l3_2(RenderWindow &window)
         for (int i = 0; i < maxEnemies; i++)
             enemies[i].move();
         // If player hits a tile (special zone)
+        // If player hits a tile (special zone)
         if (grid[p1Y][p1X] == 1)
         {
 
+            p1DX = p1DY = 0;
             // Drop traps under enemy positions
-            for (int i = 0; i < maxEnemies; i++)
-                drop(enemies[i].y / tileSize, enemies[i].x / tileSize);
-
-            // Only reset the specific touched tile
-            if (grid[p1Y][p1X] == 1)
+            if (grid[prey1][prex1] == 2)
             {
-                p1DX = p1DY = 0;
-            }
+                for (int i = 0; i < maxEnemies; i++)
+                    drop(enemies[i].y / tileSize, enemies[i].x / tileSize);
 
-            // Now, we'll update the grid according to some game logic if needed (e.g., new tiles)
-            int tileNow = 0;
-            for (int i = 0; i < row; i++)
-            {
-                for (int j = 0; j < cols; j++)
+                // Now, we'll update the grid according to some game logic if needed (e.g., new tiles)
+                int tileNow = 0;
+                for (int i = 0; i < row; i++)
                 {
-                    // Handle tiles for player-specific logic
-                    if (grid[i][j] == -1)
-                        grid[i][j] = 0;
-                    else if (grid[i][j] == 2 || grid[i][j] == 0)
+                    for (int j = 0; j < cols; j++)
                     {
+                        // Handle tiles for player-specific logic
+                        if (grid[i][j] == -1)
+                            grid[i][j] = 0;
+                        else if (grid[i][j] == 2 || grid[i][j] == 0)
+                        {
+                            // Debugging for player 1 and 2
 
-                        tiles_player_2 += 1;
-                        tileNow += 1;
-                        grid[i][j] = 1;
+                            tiles_player_1 += 1;
+                            grid[i][j] = 1;
+                        }
                     }
                 }
             }
@@ -2640,40 +2655,35 @@ void l3_2(RenderWindow &window)
         if (grid[p2Y][p2X] == 1)
         {
 
-            safe_zone = false;
+            p2DX = p2DY = 0;
 
-            // Drop traps under enemy positions
-            for (int i = 0; i < maxEnemies; i++)
-                drop(enemies[i].y / tileSize, enemies[i].x / tileSize);
-
-            // Only reset the specific touched tile
-            if (grid[p2Y][p2X] == 1)
+            if (grid[prey2][prex2] == 3)
             {
+                // Drop traps under enemy positions
+                for (int i = 0; i < maxEnemies; i++)
+                    drop(enemies[i].y / tileSize, enemies[i].x / tileSize);
 
-                p2DX = p2DY = 0;
-            }
-
-            // Now, we'll update the grid according to some game logic if needed (e.g., new tiles)
-            int tileNow = 0;
-            for (int i = 0; i < row; i++)
-            {
-                for (int j = 0; j < cols; j++)
+                // Now, we'll update the grid according to some game logic if needed (e.g., new tiles)
+                int tileNow = 0;
+                for (int i = 0; i < row; i++)
                 {
-                    // Handle tiles for player-specific logic
-                    if (grid[i][j] == -1)
-                        grid[i][j] = 0;
-                    else if (grid[i][j] == 3 || grid[i][j] == 0)
+                    for (int j = 0; j < cols; j++)
                     {
+                        // Handle tiles for player-specific logic
+                        if (grid[i][j] == -1)
+                            grid[i][j] = 0;
+                        else if (grid[i][j] == 3 || grid[i][j] == 0)
+                        {
 
-                        tiles_player_1 += 1;
+                            tiles_player_2 += 1;
 
-                        tileNow += 1;
-                        grid[i][j] = 1;
+                            tileNow += 1;
+                            grid[i][j] = 1;
+                        }
                     }
                 }
             }
         }
-
         // End game if enemy touches player trail
         for (int i = 0; i < maxEnemies; i++)
             if (grid[enemies[i].y / tileSize][enemies[i].x / tileSize] == 2 || grid[enemies[i].y / tileSize][enemies[i].x / tileSize] == 3)
@@ -2760,6 +2770,9 @@ void cont_2(RenderWindow &window)
     int tiles_player_2 = 0;
 
     setupGrid(); // set up grid structure
+
+    int prex1 = 0, prey1 = 0;
+    int prex2 = 0, prey2 = 0;
 
     while (window.isOpen())
     {
@@ -2870,6 +2883,12 @@ void cont_2(RenderWindow &window)
         // Move players every frame if enough time has passed
         if (animationTimer > animationDelay)
         {
+            prex1 = p1X;
+            prey1 = p1Y;
+
+            prex2 = p2X;
+            prey2 = p2Y;
+
             // Move Player 1
             p1X += p1DX;
             p1Y += p1DY;
@@ -2928,36 +2947,32 @@ void cont_2(RenderWindow &window)
         for (int i = 0; i < currentEnemyCount; i++)
             enemies[i].move();
 
-        // If player hits a tile (special zone)
         if (grid[p1Y][p1X] == 1)
         {
 
+            p1DX = p1DY = 0;
             // Drop traps under enemy positions
-            for (int i = 0; i < currentEnemyCount; i++)
-                drop(enemies[i].y / tileSize, enemies[i].x / tileSize);
-
-            // Only reset the specific touched tile
-            if (grid[p1Y][p1X] == 1)
+            if (grid[prey1][prex1] == 2)
             {
-                p1DX = p1DY = 0;
-            }
+                for (int i = 0; i < currentEnemyCount; i++)
+                    drop(enemies[i].y / tileSize, enemies[i].x / tileSize);
 
-            // Now, we'll update the grid according to some game logic if needed (e.g., new tiles)
-            int tileNow = 0;
-            for (int i = 0; i < row; i++)
-            {
-                for (int j = 0; j < cols; j++)
+                // Now, we'll update the grid according to some game logic if needed (e.g., new tiles)
+                int tileNow = 0;
+                for (int i = 0; i < row; i++)
                 {
-                    // Handle tiles for player-specific logic
-                    if (grid[i][j] == -1)
-                        grid[i][j] = 0;
-                    else if (grid[i][j] == 2 || grid[i][j] == 0)
+                    for (int j = 0; j < cols; j++)
                     {
-                        // Debugging for player 1 and 2
+                        // Handle tiles for player-specific logic
+                        if (grid[i][j] == -1)
+                            grid[i][j] = 0;
+                        else if (grid[i][j] == 2 || grid[i][j] == 0)
+                        {
+                            // Debugging for player 1 and 2
 
-                        tiles_player_2 += 1;
-                        tileNow += 1;
-                        grid[i][j] = 1;
+                            tiles_player_1 += 1;
+                            grid[i][j] = 1;
+                        }
                     }
                 }
             }
@@ -2966,33 +2981,31 @@ void cont_2(RenderWindow &window)
         if (grid[p2Y][p2X] == 1)
         {
 
-            // Drop traps under enemy positions
-            for (int i = 0; i < currentEnemyCount; i++)
-                drop(enemies[i].y / tileSize, enemies[i].x / tileSize);
+            p2DX = p2DY = 0;
 
-            // Only reset the specific touched tile
-            if (grid[p2Y][p2X] == 1)
+            if (grid[prey2][prex2] == 3)
             {
+                // Drop traps under enemy positions
+                for (int i = 0; i < currentEnemyCount; i++)
+                    drop(enemies[i].y / tileSize, enemies[i].x / tileSize);
 
-                p2DX = p2DY = 0;
-            }
-
-            // Now, we'll update the grid according to some game logic if needed (e.g., new tiles)
-            int tileNow = 0;
-            for (int i = 0; i < row; i++)
-            {
-                for (int j = 0; j < cols; j++)
+                // Now, we'll update the grid according to some game logic if needed (e.g., new tiles)
+                int tileNow = 0;
+                for (int i = 0; i < row; i++)
                 {
-                    // Handle tiles for player-specific logic
-                    if (grid[i][j] == -1)
-                        grid[i][j] = 0;
-                    else if (grid[i][j] == 3 || grid[i][j] == 0)
+                    for (int j = 0; j < cols; j++)
                     {
+                        // Handle tiles for player-specific logic
+                        if (grid[i][j] == -1)
+                            grid[i][j] = 0;
+                        else if (grid[i][j] == 3 || grid[i][j] == 0)
+                        {
 
-                        tiles_player_1 += 1;
+                            tiles_player_2 += 1;
 
-                        tileNow += 1;
-                        grid[i][j] = 1;
+                            tileNow += 1;
+                            grid[i][j] = 1;
+                        }
                     }
                 }
             }
