@@ -68,7 +68,3 @@ Contributions are welcome. Suggested workflow:
 3. Open a pull request describing your changes.
 
 Please ensure builds succeed and include any relevant test steps.
-
-## License
-
-This project is provided under the MIT license. See LICENSE or add one if required.
